@@ -1,0 +1,33 @@
+﻿@page
+@model CoreProject.Pages.Countries.detailsModel
+@{
+    ViewData["Title"] = "details";
+}
+
+<br />
+<br />
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Country Id </th>
+            <th>Country Name</th>
+            <th>Country Image</th>
+
+
+
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>@Model.Country.Id</th>
+            <th>@Model.Country.Name</th>
+            <th> <img src="~/uploads/img/@Model.Country.Image" style="width:200px; height:140px" />  </th>
+
+        </tr>
+
+        
+    </tbody>
+
+</table>
+
+

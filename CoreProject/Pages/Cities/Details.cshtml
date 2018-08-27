@@ -1,0 +1,31 @@
+﻿@page
+@model CoreProject.Pages.Cities.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+<table class="table table-bordered table-hover table-striped table-responsive">
+    <thead>
+        <tr>
+            <th>City Name</th>
+            <th>Country Name</th>
+            <th>Image</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>@Model.City.Name</th>
+            <th>@Model.City.Country.Name</th>
+            <th> <img src="~/uploads/img/@Model.City.Image" style="width:200px; height:100px" />  </th>
+           
+        </tr>
+    </tbody>
+</table>
+
+<div>
+    <a asp-page="Edit" asp-route-id="@Model.City.Id">Edit</a> |
+    <a asp-page="Index">Back to List</a>
+</div>

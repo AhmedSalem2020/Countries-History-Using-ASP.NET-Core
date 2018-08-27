@@ -1,0 +1,137 @@
+﻿@page "{id?}"
+@model CoreProject.Pages.Countries.CountryCrudModel
+@{
+    ViewData["Title"] = "CountryCrud";
+}
+
+<link href="~/datatables/dataTables.bootstrap.css" rel="stylesheet" />
+
+
+<h2>Create</h2>
+<form asp-action="Edit" method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="@Model.Country.Id" />
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="@Model.Country.Name"></label>
+                <input asp-for="@Model.Country.Name" class="form-control" />
+                <span asp-validation-for="@Model.Country.Name"></span>
+            </div>
+
+            <div class="form-group">
+                <p>Upload Image  </p>
+                <input asp-for="@Model.Country.Image" class="form-control" type="file" name="files" />
+            </div>
+
+            @if (Model.Country != null)
+            {
+                <input type="submit" value="Edit" asp-page-handler="Edit" class="btn btn-primary" role="button" />
+            }
+            else
+            {
+                <input type="submit" value="Create" class="btn btn-default" role="button" />
+            }
+        </div>
+    </div>
+</form>
+
+<br />
+<br />
+<table id="tb" class="table table-bordered table-hover table-striped table-responsive">
+    <thead>
+        <tr>
+            <th>Country Name</th>
+            <th>Country Image</th>
+            <th>Operations</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Countries)
+        {
+            <tr>
+                <th>@item.Name</th>
+                <th> <img src="~/uploads/img/@item.Image" class="rounded" style="width:200px; height:100px" />  </th>
+                <th>
+                    <a asp-route-id="@item.Id" asp-page-handler="Edit" class="btn btn-primary" role="button">Edit</a>
+
+                    @*How to make PopUp for Delete*@ 
+                    @* 1- when he clicks the button so, the function will execute*@ 
+
+                    <a onclick="MyFun(@item.Id)" class="btn btn-danger" role="button">Delete</a>
+
+                    <a asp-page="./details" asp-route-id="@item.Id" asp-page-handler="details" class="btn btn-success" role="button">View Details</a>
+                </th>
+            </tr>
+
+        }
+    </tbody>
+
+</table>
+
+<div class="container">
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Delete</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Are You Sure For Doing That Action?!</p>
+                </div>
+                <div class="modal-footer">
+
+                    @* 3- the button inside this modal will execute a function also*@ 
+
+                    <a onclick="FunD()" class="btn btn-danger" role="button">Delete</a>
+                    
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // 2- the function will recieve the id and make it global to show the modal (modal=popup)
+    var gid;
+    function MyFun(id){
+        gid = id;
+        $("#myModal").modal();
+    }
+
+    function FunD() {
+        // 4- this function will call the link with Id
+        // I use window.location.origin 3lshan lma port yet3'r yeb2a yt3'ir ma4ah
+
+        window.open(window.location.origin + "/Countries/CountryCrud/" + gid + "?handler=Delete", "_self");
+    }
+</script>
+
+@section scripts
+    {
+    <script src="~/datatables/jquery.dataTables.js"></script>
+    <script src="~/datatables/dataTables.bootstrap.js"></script>
+
+    <script>
+        $(function() {
+            $('#tb').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": true,
+                "pagingType": "full_numbers",
+                "pageLength": 4
+            });
+        });
+    </script>
+
+}
